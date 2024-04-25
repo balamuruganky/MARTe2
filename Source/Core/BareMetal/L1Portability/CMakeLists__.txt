@@ -1,0 +1,22 @@
+set(MARTe2_TIER  BareMetal)
+set(MARTe2_LEVEL L0Types)
+add_definitions(-DMARTe2_TIER=${MARTe2_TIER})
+add_definitions(-DMARTe2_LEVEL=${MARTe2_LEVEL})
+
+set(port_inclist ../L0Types
+				 .)
+
+set(BAREMETAL_PORTABILILITY_SUFFIX "_B_P")
+add_subdirectory(Environment)
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    list(APPEND port_inclist ./Environment/Linux)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+	list(APPEND port_inclist ./Environment/Windows)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "ARTOS")
+	list(APPEND port_inclist ./Environment/FreeRTOS)
+else()
+	list(APPEND port_inclist ./Environment/BareUS)
+endif()
+
+BUILD_STATIC_LIB("${port_inclist}" ${BAREMETAL_SUFFIX})

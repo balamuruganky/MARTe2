@@ -73,7 +73,7 @@ void EmbeddedThread::ThreadLoop() {
         // startup
         err = Execute(information);
         if (!err.ErrorsCleared()) {
-            REPORT_ERROR(ErrorManagement::RecoverableError, "Callback returned error. Entering EmbeddedThread loop nevertheless.");
+            //REPORT_ERROR(ErrorManagement::RecoverableError, "Callback returned error. Entering EmbeddedThread loop nevertheless.");
         }
 
         // main stage

@@ -1,0 +1,47 @@
+MACRO(BUILD_STATIC_LIB INC_LIST SUFFIX)
+	get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+
+	# Optionally glob, but only for CMake 3.12 or later:
+	file(GLOB ${LIB_NAME}_SOURCE_LIST CONFIGURE_DEPENDS "*.cpp")
+
+	include_directories(${INC_LIST})
+	
+	# Make an automatic library - will be static or dynamic based on user setting
+	add_library(${LIB_NAME}${SUFFIX} ${${LIB_NAME}_SOURCE_LIST})
+
+	# If library needed add here
+	target_link_libraries(${LIB_NAME}${SUFFIX})
+ENDMACRO()
+
+MACRO(BUILD_PLATFORM_SPECIFIC_STATIC_LIB SRC_LIST INC_LIST SUFFIX)
+	get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+
+	include_directories(${INC_LIST})
+
+	# Make an automatic library - will be static or dynamic based on user setting
+	add_library(${LIB_NAME}${SUFFIX} ${SRC_LIST})
+	message(STATUS "${SRC_LIST} ${INC_LIST} ${LIB_NAME}${SUFFIX}")
+
+	# If library needed add S RC_LIST 
+	target_link_libraries(${LIB_NAME}${SUFFIX})
+ENDMACRO()
+
+include ("${CMAKE_HOME_DIRECTORY}/cmake/common/bundle_static_library.macro")
+
+MACRO(BUNDLE_STATIC_LIBS INC_LIST LIB_LIST SUFFIX)
+	get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+
+	# Optionally glob, but only for CMake 3.12 or later:
+	file(GLOB ${LIB_NAME}_SOURCE_LIST CONFIGURE_DEPENDS "*.cpp")
+
+	include_directories(${INC_LIST})
+
+	# Make an automatic library - will be static or dynamic based on user setting
+	add_library(${LIB_NAME}${SUFFIX} ${${LIB_NAME}_SOURCE_LIST})
+
+	# If library needed add here
+	target_link_libraries(${LIB_NAME}${SUFFIX})
+	target_link_libraries(${LIB_NAME}${SUFFIX} PUBLIC STATIC ${LIB_LIST})
+
+	#bundle_static_library(${LIB_NAME}${SUFFIX} ${LIB_LIST})
+ENDMACRO()

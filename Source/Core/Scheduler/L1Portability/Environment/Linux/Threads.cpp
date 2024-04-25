@@ -170,7 +170,7 @@ void SetPriority(const ThreadIdentifier &threadId,
             //Bound the priority to its maximum
             uint32 maxPriority = static_cast<uint32>(sched_get_priority_max(policy));
             if (priorityLevelToAssign > maxPriority) {
-                REPORT_ERROR_STATIC_0(ErrorManagement::Warning, "Requested a thread priority that is higher than the one supported by the selected policy - clipping to the maximum value supported by the policy.");
+                //REPORT_ERROR_STATIC_0(ErrorManagement::Warning, "Requested a thread priority that is higher than the one supported by the selected policy - clipping to the maximum value supported by the policy.");
                 priorityLevelToAssign = maxPriority;
             }
 

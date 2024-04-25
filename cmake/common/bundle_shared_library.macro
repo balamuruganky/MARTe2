@@ -1,0 +1,25 @@
+include (${CMAKE_HOME_DIRECTORY}/cmake/common/subdirectories.macro)
+
+MACRO(BUILD_SHARED_LIBS suffix)
+	SET(LIB_LIST "")
+
+	SUBDIRLIST(SUBDIR_LIST ${CMAKE_CURRENT_SOURCE_DIR})
+	FOREACH(subdir ${SUBDIR_LIST})
+	  add_subdirectory(${subdir})
+	  LIST(APPEND LIB_LIST ${subdir}${suffix})
+	ENDFOREACH()
+
+	add_library(${PROJECT_NAME}${suffix} SHARED ${CMAKE_HOME_DIRECTORY}/empty.cpp)
+	target_link_libraries(${PROJECT_NAME}${suffix}
+	    "-Wl,--whole-archive"
+	    ${LIB_LIST}
+	    "-Wl,--no-whole-archive")
+ENDMACRO()
+
+MACRO(COMBINE_SHARED_LIBS OUT_LIB_NAME LIB_LIST)
+	add_library(${OUT_LIB_NAME} SHARED ${CMAKE_HOME_DIRECTORY}/empty.cpp)
+	target_link_libraries(${OUT_LIB_NAME} -nodefaultlibs
+	    "-Wl,--whole-archive"
+	    ${LIB_LIST}
+	    "-Wl,--no-whole-archive")
+ENDMACRO()

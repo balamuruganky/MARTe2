@@ -1,0 +1,18 @@
+if (NOT ${PROJECT_NAME}-MultiBuild)
+  set(${PROJECT_NAME}-MultiBuild ON)
+
+  macro (setup_library library_name build_type)
+    set(LIBNAME ${library_name})
+    set(LIBTYPE ${build_type})
+
+    add_subdirectory(
+      ${CMAKE_CURRENT_SOURCE_DIR}
+      build-${build_type}
+    )
+  endmacro()
+
+  setup_library(${PROJECT_NAME}_s STATIC)
+  setup_library(${PROJECT_NAME} SHARED)
+
+  return()
+endif()
