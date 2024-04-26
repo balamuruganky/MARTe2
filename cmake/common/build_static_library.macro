@@ -26,8 +26,6 @@ MACRO(BUILD_PLATFORM_SPECIFIC_STATIC_LIB SRC_LIST INC_LIST SUFFIX)
 	target_link_libraries(${LIB_NAME}${SUFFIX})
 ENDMACRO()
 
-include ("${CMAKE_HOME_DIRECTORY}/cmake/common/bundle_static_library.macro")
-
 MACRO(BUNDLE_STATIC_LIBS INC_LIST LIB_LIST SUFFIX)
 	get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
@@ -42,6 +40,4 @@ MACRO(BUNDLE_STATIC_LIBS INC_LIST LIB_LIST SUFFIX)
 	# If library needed add here
 	target_link_libraries(${LIB_NAME}${SUFFIX})
 	target_link_libraries(${LIB_NAME}${SUFFIX} PUBLIC STATIC ${LIB_LIST})
-
-	#bundle_static_library(${LIB_NAME}${SUFFIX} ${LIB_LIST})
 ENDMACRO()

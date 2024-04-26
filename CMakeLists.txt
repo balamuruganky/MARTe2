@@ -22,14 +22,11 @@ set(TEST_SCHEDULER_SUFFIX  S_Test)
 set(MARTe2_TEST_ENVIRONMENT GTest)
 set(EXECUTABLE_SUFFIX .ex)
 
-#set(CMAKE_C_COMPILER "/usr/bin/gcc")
-#set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-
-add_definitions(-DENVIRONMENT=${ENVIRONMENT})
-add_definitions(-DARCHITECTURE=${ARCHITECTURE})
-add_definitions(-DMARTe2_TEST_ENVIRONMENT=${MARTe2_TEST_ENVIRONMENT})
-#add_definitions(-g -ggdb -std=c++14 -Wall -fPIC -static-libstdc++ -DUSE_PTHREAD -pthread -Wno-deprecated-declarations -Wno-unused-value)
-add_definitions(-g -ggdb -fPIC -Wall -std=c++98 -Werror -static-libstdc++ -DUSE_PTHREAD -pthread -Wno-invalid-offsetof -Wno-unused-variable -fno-strict-aliasing -frtti)
+#
+# Include platform related toolchains
+#
+include (${CMAKE_HOME_DIRECTORY}/cmake/compiler/gcc.cmake)
+include (${CMAKE_HOME_DIRECTORY}/cmake/platform/x86-64_linux.cmake)
 
 #
 # Include common macros
