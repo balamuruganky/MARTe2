@@ -24,8 +24,6 @@ include_directories(../L0Types
 					../L4Messages
 					../L5GAMs
 					./L4Messages
-					../../FileSystem/L1Portability
-					../../FileSystem/L3Streams
 					.)
 
 # Make an automatic library - will be static or dynamic based on user setting
