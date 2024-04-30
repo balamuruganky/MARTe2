@@ -3,17 +3,15 @@ get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 # Optionally glob, but only for CMake 3.12 or later:
 file(GLOB ${LIB_NAME}_SOURCE_LIST CONFIGURE_DEPENDS "*.cpp")
 
-file(GLOB GENERIC_SOURCE_LIST CONFIGURE_DEPENDS "./Environment/Generic/*.cpp")
-
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     file(GLOB PLATFORM_SOURCE_LIST CONFIGURE_DEPENDS "./Environment/Linux/*.cpp")
     include_directories(./Environment/Linux)
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-	file(GLOB PLATFORM_SOURCE_LIST CONFIGURE_DEPENDS "./Environment/Windows/*.cpp")
-	include_directories(./Environment/Windows)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "ARTOS")
 	file(GLOB PLATFORM_SOURCE_LIST CONFIGURE_DEPENDS "./Environment/FreeRTOS/*.cpp")
 	include_directories(./Environment/FreeRTOS)
+else()
+	file(GLOB PLATFORM_SOURCE_LIST CONFIGURE_DEPENDS "./Environment/BareUS/*.cpp")
+	include_directories(./Environment/BareUS)
 endif()
 
 include_directories(../L0Types

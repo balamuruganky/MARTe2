@@ -1,6 +1,8 @@
 include (${CMAKE_HOME_DIRECTORY}/cmake/common/subdirectories.macro)
+include (${CMAKE_HOME_DIRECTORY}/cmake/common/build_static_library.macro)
 
-MACRO(BUILD_SHARED_LIBS suffix)
+
+MACRO(BUILD_LIBS suffix)
 	SET(LIB_LIST "")
 
 	SUBDIRLIST(SUBDIR_LIST ${CMAKE_CURRENT_SOURCE_DIR})
@@ -14,12 +16,22 @@ MACRO(BUILD_SHARED_LIBS suffix)
 	    "-Wl,--whole-archive"
 	    ${LIB_LIST}
 	    "-Wl,--no-whole-archive")
+
+	#
+	# Build STATIC library too
+	#
+	BUNDLE_STATIC_LIBS(${PROJECT_NAME}${suffix} "${LIB_LIST}")
 ENDMACRO()
 
-MACRO(COMBINE_SHARED_LIBS OUT_LIB_NAME LIB_LIST)
+
+MACRO(COMBINE_LIBS OUT_LIB_NAME LIB_LIST)
 	add_library(${OUT_LIB_NAME} SHARED ${CMAKE_HOME_DIRECTORY}/empty.cpp)
 	target_link_libraries(${OUT_LIB_NAME} -nodefaultlibs
 	    "-Wl,--whole-archive"
 	    ${LIB_LIST}
 	    "-Wl,--no-whole-archive")
+	#
+	# Build STATIC library too
+	#
+	BUNDLE_STATIC_LIBS(${OUT_LIB_NAME} "${LIB_LIST}")
 ENDMACRO()

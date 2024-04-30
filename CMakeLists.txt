@@ -31,7 +31,7 @@ include (${CMAKE_HOME_DIRECTORY}/cmake/platform/x86-64_linux.cmake)
 #
 # Include common macros
 #
-include (${CMAKE_HOME_DIRECTORY}/cmake/common/bundle_shared_library.macro)
+include (${CMAKE_HOME_DIRECTORY}/cmake/common/bundle_libraries.macro)
 include (${CMAKE_HOME_DIRECTORY}/cmake/common/add_subdirectories.macro)
 include (${CMAKE_HOME_DIRECTORY}/cmake/common/build_static_library.macro)
 

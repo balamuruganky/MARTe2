@@ -17,6 +17,7 @@ dependsRaw.*
 *.a
 GTestDirectoryTest/*
 __pycache__
+/build/
 
 .vscode
 .clang

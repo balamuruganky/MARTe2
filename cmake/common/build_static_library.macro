@@ -13,31 +13,33 @@ MACRO(BUILD_STATIC_LIB INC_LIST SUFFIX)
 	target_link_libraries(${LIB_NAME}${SUFFIX})
 ENDMACRO()
 
-MACRO(BUILD_PLATFORM_SPECIFIC_STATIC_LIB SRC_LIST INC_LIST SUFFIX)
-	get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 
-	include_directories(${INC_LIST})
+MACRO(BUNDLE_STATIC_LIBS OUT_LIB_NAME LIB_LIST)
+	FOREACH(lib_name ${LIB_LIST})
+	  LIST(APPEND MODIFIED_LIB_LIST ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib${lib_name}.a)
+      add_custom_command(TARGET ${OUT_LIB_NAME}
+				PRE_LINK
+        COMMAND cd ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} && mkdir -p ${lib_name} && cd ${lib_name} && ${CMAKE_AR} -x ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib${lib_name}.a
+        VERBATIM
+        WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+        COMMENT "${lib_name} is extracted to be processed"
+      )
 
-	# Make an automatic library - will be static or dynamic based on user setting
-	add_library(${LIB_NAME}${SUFFIX} ${SRC_LIST})
-	message(STATUS "${SRC_LIST} ${INC_LIST} ${LIB_NAME}${SUFFIX}")
+	file(TO_NATIVE_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${lib_name}/*.o obj_files)
+	add_custom_command(TARGET ${OUT_LIB_NAME}
+	    PRE_LINK
+	    COMMAND sh -c "${CMAKE_AR} -crs ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib${OUT_LIB_NAME}.a ${obj_files}"
+	    COMMENT "${CMAKE_AR} -crs ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib${OUT_LIB_NAME}.a ${obj_files}"
+	    VERBATIM
+	    WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+	)
 
-	# If library needed add S RC_LIST 
-	target_link_libraries(${LIB_NAME}${SUFFIX})
-ENDMACRO()
-
-MACRO(BUNDLE_STATIC_LIBS INC_LIST LIB_LIST SUFFIX)
-	get_filename_component(LIB_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-
-	# Optionally glob, but only for CMake 3.12 or later:
-	file(GLOB ${LIB_NAME}_SOURCE_LIST CONFIGURE_DEPENDS "*.cpp")
-
-	include_directories(${INC_LIST})
-
-	# Make an automatic library - will be static or dynamic based on user setting
-	add_library(${LIB_NAME}${SUFFIX} ${${LIB_NAME}_SOURCE_LIST})
-
-	# If library needed add here
-	target_link_libraries(${LIB_NAME}${SUFFIX})
-	target_link_libraries(${LIB_NAME}${SUFFIX} PUBLIC STATIC ${LIB_LIST})
+	add_custom_command(TARGET ${OUT_LIB_NAME}
+		PRE_LINK
+		COMMAND sh -c "${CMAKE_COMMAND} -E rm -rf ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${lib_name}"
+		VERBATIM
+		WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+		COMMENT "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${lib_name} temp folder is deleted"
+	)
+	ENDFOREACH()
 ENDMACRO()
