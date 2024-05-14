@@ -44,7 +44,7 @@ namespace MARTe {
 /**
  * Maximum size for error messages.
  */
-static const uint32 MAX_ERROR_MESSAGE_SIZE = 200u;
+static const uint32 MAX_ERROR_MESSAGE_SIZE = 512u;
 
 /**
  * @brief The REPORT_ERROR_STATIC_U is not to be used. It serves as the one parameter choice for the REPORT_ERROR_STATIC_MACRO_CHOOSER macro.

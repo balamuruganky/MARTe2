@@ -25,4 +25,4 @@ add_executable(
     ${EXECUTABLE_NAME}${EXECUTABLE_SUFFIX} ${EXECUTABLE_NAME}.cpp
     )
 
-target_link_libraries(${EXECUTABLE_NAME}${EXECUTABLE_SUFFIX} ${PROJECT_NAME} -lm -lstdc++ -lgcc_s -lc -lrt -ldl -lpthread)
+target_link_libraries(${EXECUTABLE_NAME}${EXECUTABLE_SUFFIX} ${PROJECT_NAME} -lm -lstdc++ -lgcc_s -lc -lrt -ldl -lpthread -Wl,--no-as-needed -fPIC)

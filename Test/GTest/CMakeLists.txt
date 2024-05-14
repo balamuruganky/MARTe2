@@ -38,6 +38,6 @@ add_executable(
     ${EXECUTABLE_NAME}App ${${EXECUTABLE_NAME}_SOURCE_LIST}
     )
 
-target_link_libraries(${EXECUTABLE_NAME}App ${PROJECT_NAME} ${PROJECT_NAME}Test ${PROJECT_NAME}${GTEST_EXEUTABLE_SUFFIX} GTest::gtest GTest::gtest_main -lstdc++ -lgcc_s -lglib-2.0 -lm -lc -lrt -ldl -lpthread -Wl,--no-as-needed)
+target_link_libraries(${EXECUTABLE_NAME}App ${PROJECT_NAME} ${PROJECT_NAME}Test ${PROJECT_NAME}${GTEST_EXEUTABLE_SUFFIX} GTest::gtest GTest::gtest_main -lstdc++ -lgcc_s -lglib-2.0 -lm -lc -lrt -ldl -lpthread -Wl,--no-as-needed -fPIC)
 
 #target_link_libraries(${EXECUTABLE_NAME}App PRIVATE GTest::gtest_main GTest::gtest lib${PROJECT_NAME}.a lib${PROJECT_NAME}Test.a lib${PROJECT_NAME}${GTEST_EXEUTABLE_SUFFIX}.a libL6AppB.a)
