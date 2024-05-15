@@ -249,7 +249,7 @@ ErrorManagement::ErrorType MutexSem::Lock(const TimeoutType &timeout) {
                 ok = (pthread_mutex_timedlock(&handle->mutexHandle, &timesValues) == 0);
                 if (!ok) {
                     err = ErrorManagement::Timeout;
-                    //REPORT_ERROR_STATIC_0(err, "Information: timeout occurred");
+                    REPORT_ERROR_STATIC_0(err, "Information: timeout occurred");
                 }
                 else {
                     err = ErrorManagement::NoError;
